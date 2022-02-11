@@ -1,0 +1,7 @@
+*.code-workspace
+*.swp
+.DS_Store
+.cover
+.vscode
+.vstags
+go.sum
