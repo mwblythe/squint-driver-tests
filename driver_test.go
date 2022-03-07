@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/mwblythe/squint"
 	"github.com/mwblythe/squint/driver"
 	"github.com/stretchr/testify/suite"
 )
@@ -21,15 +22,21 @@ func (b Bits) Split() (string, Bits) {
 
 type DriverSuite struct {
 	suite.Suite
-	driver string  // driver name to wrap
-	dsn    string  // dsn to open
-	db     *sql.DB // wrapped db handle
-	count  int64   // insert count
+	driver  string          // driver name to wrap
+	dsn     string          // dsn to open
+	builder *squint.Builder // builder to test with
+	db      *sql.DB         // wrapped db handle
+	count   int64           // insert count
 }
 
 func (s *DriverSuite) SetupSuite() {
 	var err error
-	driver.Register(s.driver)
+
+	if s.builder == nil {
+		s.builder = squint.NewBuilder()
+	}
+
+	driver.Register(s.driver, driver.Builder(s.builder))
 
 	s.db, err = sql.Open("squint-"+s.driver, s.dsn)
 	if err != nil {
@@ -142,7 +149,7 @@ func (s *DriverSuite) Transaction() {
 
 func (s *DriverSuite) Prepared() {
 	s.Run("WithPlaceholders", func() {
-		stmt, err := s.db.PrepareContext(ctx, "select name from people where id = ?")
+		stmt, err := s.db.PrepareContext(ctx, "select name from people where id = "+s.builder.Binder(1))
 		if !s.Nil(err) {
 			return
 		}

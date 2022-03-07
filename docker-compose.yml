@@ -1,13 +1,20 @@
 version: "3"
 
-# use mariadb instead of mysql due to wider platform support
-
 services:
+  # use mariadb instead of mysql due to wider platform support
   mariadb:
-    image: mariadb
+    image: mariadb:10.7
     environment:
       MARIADB_DATABASE: squint
       MARIADB_ALLOW_EMPTY_PASSWORD: "true"
       MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "true"
     ports:
       - 3306:3306
+
+  postgres:
+    image: postgres:14.2
+    environment:
+      POSTGRES_DB: squint
+      POSTGRES_PASSWORD: squint
+    ports:
+      - 5432:5432
