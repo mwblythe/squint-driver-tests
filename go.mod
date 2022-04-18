@@ -6,7 +6,7 @@ require (
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/lib/pq v1.10.4
 	github.com/mattn/go-sqlite3 v1.14.10
-	github.com/mwblythe/squint v1.0.0-RC.2
+	github.com/mwblythe/squint v1.0.0-RC.3.2
 	github.com/stretchr/testify v1.6.0
 	modernc.org/sqlite v1.14.6
 )

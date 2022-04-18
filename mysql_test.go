@@ -17,6 +17,10 @@ func (s *MySQLSuite) SetupSuite() {
 
 	s.DriverSuite.SetupSuite()
 
+	if err := s.db.Ping(); err != nil {
+		s.T().Fatal(err)
+	}
+
 	_, err := s.db.Exec(`drop table if exists people`)
 	if err == nil {
 		_, err = s.db.Exec(`

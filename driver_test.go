@@ -49,9 +49,11 @@ func (s *DriverSuite) TearDownSuite() {
 }
 
 func (s *DriverSuite) TestDriver() {
-	s.Run("Ping", func() {
+	if !s.Run("Ping", func() {
 		s.Nil(s.db.PingContext(ctx))
-	})
+	}) {
+		s.T().Skip()
+	}
 
 	s.Run("Exec", func() {
 		for n := 0; n < 5; n++ {
